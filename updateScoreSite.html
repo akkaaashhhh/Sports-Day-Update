@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Update Scores Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #4caf50;
+      color: #fff;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="updateForm">
+    <label for="blueInput">Blue Score:</label>
+    <input type="number" id="blueInput" name="blue" placeholder="Enter Blue Score" required>
+    
+    <label for="redInput">Red Score:</label>
+    <input type="number" id="redInput" name="red" placeholder="Enter Red Score" required>
+    
+    <label for="greenInput">Green Score:</label>
+    <input type="number" id="greenInput" name="green" placeholder="Enter Green Score" required>
+    
+    <label for="yellowInput">Yellow Score:</label>
+    <input type="number" id="yellowInput" name="yellow" placeholder="Enter Yellow Score" required>
+
+    <br />
+    <button type="button" onclick="updateScores()">Update Scores</button>
+  </form>
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.9/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.9/firebase-firestore-compat.js"></script>
+
+  <script>
+    // Initialize Firebase (replace with your actual configuration)
+    const firebaseConfig = {
+      // Your Firebase configuration here
+        apiKey: "AIzaSyCoaxmFyr_wenLOmrrMVZKiIsn9rTPDpvA",
+        authDomain: "sports-day-12d5b.firebaseapp.com",
+        databaseURL: "https://sports-day-12d5b-default-rtdb.firebaseio.com",
+        projectId: "sports-day-12d5b",
+        storageBucket: "sports-day-12d5b.appspot.com",
+        messagingSenderId: "1045074421660",
+        appId: "1:1045074421660:web:a98a1ad9747592275c4a59",
+        measurementId: "G-N924RQX8RR"
+    };
+
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Function to update scores in Firestore
+    const updateScores = async () => {
+      try {
+        // Get values from the form
+        const blueScore = document.getElementById('blueInput').value;
+        const redScore = document.getElementById('redInput').value;
+        const greenScore = document.getElementById('greenInput').value;
+        const yellowScore = document.getElementById('yellowInput').value;
+
+        // Update scores in Firestore
+        const scoresRef = db.collection('Scores').doc('HouseWiseScores');
+        await scoresRef.update({
+          Blue: parseInt(blueScore),
+          Red: parseInt(redScore),
+          Green: parseInt(greenScore),
+          Yellow: parseInt(yellowScore),
+        });
+
+        alert('Scores updated successfully!');
+      } catch (error) {
+        console.error('Error updating scores:', error);
+        alert('Failed to update scores. Please try again.');
+      }
+    };
+  </script>
+
+</body>
+</html>
